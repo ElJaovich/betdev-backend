@@ -1,6 +1,10 @@
-import { Pool } from "pg"
-import config from "./config"
+import { Pool } from "pg";
+import config from "./config";
 
-const pool = new Pool(config.db);
+let pool: any;
 
-export { pool }
+if (!pool) {
+	pool = new Pool (config.db);
+}
+
+export { pool };
