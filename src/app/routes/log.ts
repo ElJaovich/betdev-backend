@@ -1,8 +1,7 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import { login } from "../controllers/log.controller"
 const router = Router();
 
-router.get("/", (req: Request, res: Response) => {
-	return res.status(200).send("Hola")
-})
+router.get("/", login)
 
 export default router
