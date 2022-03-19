@@ -49,17 +49,17 @@ const verifyUser = async (req: Request, res: Response) => {
 			email,
 			firstQuestion,
 			firstResponse,
-			secondResponse,
+			secondQuestion,
 			secondResponse,
 		} = req.body;
 		res.status(200).send({
 			email,
 			firstQuestion,
 			firstResponse,
-			secondResponse,
+			secondQuestion,
 			secondResponse,
 		});
-	} catch {
+	} catch (e) {
 		handleError(res, e);
 	}
 };

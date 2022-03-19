@@ -9,13 +9,13 @@ import {
 	createUser
 } from "../controllers/users.controllers";
 
-const router = Router()
+const router = Router();
 
 /* ---- Private Routes ---- */
 
 router.get("/user", getUsers);
 
-router.post("/user",createUser)
+router.post("/user",createUser);
 
 router.get("/user/:id", getUserById);
 
@@ -27,4 +27,4 @@ router.put("/updatePassword/:id", updatePassword);
 
 router.delete("/deleteSession/:id", deleteSession);
 
-export default router
+export default router;

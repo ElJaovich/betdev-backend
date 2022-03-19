@@ -18,22 +18,22 @@ const getUsers = async (req: Request, res: Response) => {
 const createUser = async (req:Request, res: Response) => {
 	try {
 
-		console.log(req.query)
+		console.log(req.query);
 
 		const {
-      role,
-      name,
+			role,
+			name,
 	  password,
-      email,
-      birthDate,
-      firstQuestion,
-      firstResponse,
-      secondQuestion,
-      secondResponse,
+			email,
+			birthDate,
+			firstQuestion,
+			firstResponse,
+			secondQuestion,
+			secondResponse,
 	  createAtUser,
-    } = req.query;
+		} = req.query;
 		
-		const response=pool.query('INSERT INTO users (id,role,name,password,email,birth_Date,first_Question,first_Response,second_Question,second_Response,created_At_User) VALUES (gen_random_uuid(),$1,$2,$3,$4,$5,$6,$7,$8,$9,now()::date)', [role,name,password,email,birthDate,firstQuestion,firstResponse,secondQuestion,secondResponse])
+		const response=pool.query("INSERT INTO users (id,role,name,password,email,birth_Date,first_Question,first_Response,second_Question,second_Response,created_At_User) VALUES (gen_random_uuid(),$1,$2,$3,$4,$5,$6,$7,$8,$9,now()::date)", [role,name,password,email,birthDate,firstQuestion,firstResponse,secondQuestion,secondResponse]);
 
 		res.send("user created");
 		

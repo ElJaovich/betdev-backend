@@ -1,8 +1,8 @@
 import path from "path";
 
-require('dotenv').config({
+require("dotenv").config({
 	path: path.resolve(".env" + "." + process.env.NODE_ENV)
-})
+});
 
 export default {
 	db: {
