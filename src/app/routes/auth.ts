@@ -4,7 +4,7 @@ const router = Router();
 
 /* ---- Public Routes ---- */
 
-router.post("/login", login);
+router.get("/login", login);
 
 router.post("/register", register)
 
