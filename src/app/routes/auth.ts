@@ -6,11 +6,13 @@ import {
 	forgotPassword,
 	logout,
 } from "../controllers/auth.controllers";
+import { loginValidator } from "../validators/authValidator"
+
 const router = Router();
 
 /* ---- Public Routes ---- */
 
-router.get("/login", login);
+router.post("/login", loginValidator, login);
 
 router.post("/register", register);
 
