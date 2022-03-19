@@ -1,13 +1,44 @@
 import { pool } from "../../const/database";
 import handleError from "../helpers/handleError";
 import { Request, Response } from "express";
-import { QueryResult } from "pg";
+import { DatabaseError, QueryResult } from "pg";
 
-const getUser = async (req: Request, res: Response) => {
+const getUsers = async (req: Request, res: Response) => {
 	try {
-		const response: QueryResult = await pool.query("select * from users");
-		res.status(200).json(response.rows);
+
+		const response: QueryResult = await pool.query("select * from users;");
+		res.status(200).json(response);
+		
 	} catch (e) {
+		
+		handleError(res, e);
+	}
+};
+
+const createUser = async (req:Request, res: Response) => {
+	try {
+
+		console.log(req.query)
+
+		const {
+      role,
+      name,
+	  password,
+      email,
+      birthDate,
+      firstQuestion,
+      firstResponse,
+      secondQuestion,
+      secondResponse,
+	  createAtUser,
+    } = req.query;
+		
+		const response=pool.query('INSERT INTO users (id,role,name,password,email,birth_Date,first_Question,first_Response,second_Question,second_Response,created_At_User) VALUES (gen_random_uuid(),$1,$2,$3,$4,$5,$6,$7,$8,$9,now()::date)', [role,name,password,email,birthDate,firstQuestion,firstResponse,secondQuestion,secondResponse])
+
+		res.send("user created");
+		
+	} catch (e) {
+		
 		handleError(res, e);
 	}
 };
@@ -53,10 +84,11 @@ const deleteSession = async (req: Request, res: Response) => {
 };
 
 export {
-	getUser,
+	getUsers,
 	getUserById,
 	getSession,
 	updateUser,
 	updatePassword,
 	deleteSession,
+	createUser,
 };

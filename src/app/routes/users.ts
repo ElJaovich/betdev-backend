@@ -1,18 +1,21 @@
 import { Router } from "express";
 import {
-	getUser,
+	getUsers,
 	getUserById,
 	getSession,
 	updateUser,
 	updatePassword,
 	deleteSession,
+	createUser
 } from "../controllers/users.controllers";
 
 const router = Router()
 
 /* ---- Private Routes ---- */
 
-router.get("/user", getUser);
+router.get("/user", getUsers);
+
+router.post("/user",createUser)
 
 router.get("/user/:id", getUserById);
 
