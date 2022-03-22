@@ -2,6 +2,7 @@ import { pool } from "../../const/database";
 import handleError from "../helpers/handleError";
 import { Request, Response } from "express";
 import { QueryResult } from "pg";
+import { expresions } from "../../const/expReg";
 
 const login = async (req: Request, res: Response) => {
 	try {
@@ -45,29 +46,49 @@ const register = async (req: Request, res: Response) => {
 
 const verifyUser = async (req: Request, res: Response) => {
 	try {
-		const {
-			email,
-			firstQuestion,
-			firstResponse,
-			secondQuestion,
-			secondResponse,
-		} = req.body;
+		const { email } = req.body;
 		res.status(200).send({
-			email,
-			firstQuestion,
-			firstResponse,
-			secondQuestion,
-			secondResponse,
+			email, // responde id, firtsQuestion, secondQuestion
 		});
 	} catch (e) {
 		handleError(res, e);
 	}
 };
 
-const forgotPassword = async (req: Request, res: Response) => {
+const verifyQuestions = async (req: Request, res: Response) => {
 	try {
+		const { id } = req.params;
+
+		//Verify Id
+		if (!expresions.uuid.test(id)) {
+			return res
+				.status(403)
+				.send({ code: "43097", details: "Invalid Id" });
+		}
+
+		const { firstResponse, secondResponse } = req.body;
+		res.status(200).send({
+			firstResponse,
+			secondResponse, // responde estado 200 y un mensaje de succesfully
+		});
+	} catch (e) {
+		handleError(res, e);
+	}
+};
+
+const resetPassword = async (req: Request, res: Response) => {
+	try {
+		const { id } = req.params;
+
+		//Verify Id
+		if (!expresions.uuid.test(id)) {
+			return res
+				.status(403)
+				.send({ code: "43097", details: "Invalid Id" });
+		}
+
 		const { password } = req.body;
-		res.status(200).send({ password });
+		res.status(200).send({ password }); //Responde succesfully
 	} catch (e) {
 		handleError(res, e);
 	}
@@ -75,10 +96,10 @@ const forgotPassword = async (req: Request, res: Response) => {
 
 const logout = async (req: Request, res: Response) => {
 	try {
-		res.status(200).send("Hola");
+		res.status(200).send({ message: "Hola" });
 	} catch (e) {
 		handleError(res, e);
 	}
 };
 
-export { login, register, verifyUser, forgotPassword, logout };
+export { login, register, verifyUser, verifyQuestions, resetPassword, logout };

@@ -5,40 +5,51 @@ import { DatabaseError, QueryResult } from "pg";
 
 const getUsers = async (req: Request, res: Response) => {
 	try {
-
 		const response: QueryResult = await pool.query("select * from users;");
 		res.status(200).json(response);
-		
 	} catch (e) {
-		
 		handleError(res, e);
 	}
 };
 
-const createUser = async (req:Request, res: Response) => {
+const createUser = async (req: Request, res: Response) => {
 	try {
-
-		console.log(req.query);
-
 		const {
 			role,
 			name,
-	  password,
+			password,
 			email,
 			birthDate,
 			firstQuestion,
 			firstResponse,
 			secondQuestion,
 			secondResponse,
-	  createAtUser,
-		} = req.query;
-		
-		const response=pool.query("INSERT INTO users (id,role,name,password,email,birth_Date,first_Question,first_Response,second_Question,second_Response,created_At_User) VALUES (gen_random_uuid(),$1,$2,$3,$4,$5,$6,$7,$8,$9,now()::date)", [role,name,password,email,birthDate,firstQuestion,firstResponse,secondQuestion,secondResponse]);
+			createAtUser,
+		} = req.body; // Se usa req.body
 
-		res.send("user created");
-		
+		const response = pool.query(
+			`INSERT INTO users 
+			(id,role,name,password,email,birth_Date,first_Question,first_Response,second_Question,second_Response,created_At_User) 
+			VALUES (gen_random_uuid(),$1,$2,$3,$4,$5,$6,$7,$8,$9,now()::date)`,
+			[
+				role,
+				name,
+				password,
+				email,
+				birthDate,
+				firstQuestion,
+				firstResponse,
+				secondQuestion,
+				secondResponse,
+			]
+		);
+
+		// res.send("user created");
+		res.status(200).send({ message: "User Created" });
+		/*Se tiene que especificar el estados de la peticion y 
+		la respuestas es recomendables que sea en json, asi es mas comodo 
+		para implementar en el front*/
 	} catch (e) {
-		
 		handleError(res, e);
 	}
 };
